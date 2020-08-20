@@ -41,9 +41,55 @@ python run_pretraining.py \
   --learning_rate=2e-5
 ```
 
-## Korquad v1
-- Dataset:  https://korquad.github.io/
+## SQuAD
 
+### v1.1
+Site: 
+
+```sh
+python run_squad.py \
+  --vocab_file=$BERT_LARGE_DIR/vocab.txt \
+  --bert_config_file=$BERT_LARGE_DIR/bert_config.json \
+  --init_checkpoint=$BERT_LARGE_DIR/bert_model.ckpt \
+  --do_train=True \
+  --train_file=$SQUAD_DIR/train-v1.1.json \
+  --do_predict=True \
+  --predict_file=$SQUAD_DIR/dev-v1.1.json \
+  --train_batch_size=24 \
+  --learning_rate=3e-5 \
+  --num_train_epochs=2.0 \
+  --max_seq_length=384 \
+  --doc_stride=128 \
+  --output_dir=gs://some_bucket/squad_large/ \
+  --use_tpu=True \
+  --tpu_name=$TPU_NAME
+```
+
+### v2.0
+Site: 
+
+```sh
+python run_squad.py \
+  --vocab_file=$BERT_LARGE_DIR/vocab.txt \
+  --bert_config_file=$BERT_LARGE_DIR/bert_config.json \
+  --init_checkpoint=$BERT_LARGE_DIR/bert_model.ckpt \
+  --do_train=True \
+  --train_file=$SQUAD_DIR/train-v2.0.json \
+  --do_predict=True \
+  --predict_file=$SQUAD_DIR/dev-v2.0.json \
+  --train_batch_size=24 \
+  --learning_rate=3e-5 \
+  --num_train_epochs=2.0 \
+  --max_seq_length=384 \
+  --doc_stride=128 \
+  --output_dir=gs://some_bucket/squad_large/ \
+  --use_tpu=True \
+  --tpu_name=$TPU_NAME \
+  --version_2_with_negative=True
+```
+
+## Korquad
+- Dataset:  https://korquad.github.io/
 
 ```sh
 python run_squad.py \
@@ -60,29 +106,11 @@ python run_squad.py \
     --init_checkpoint "pretrained 모델 폴더" \
 ```
 
-```sh
-python run_squad.py \
-  --vocab_file=$BERT_LARGE_DIR/vocab.txt \
-  --bert_config_file=$BERT_LARGE_DIR/bert_config.json \
-  --init_checkpoint=$BERT_LARGE_DIR/bert_model.ckpt \
-  --do_train=False \
-  --train_file=$SQUAD_DIR/train-v2.0.json \
-  --do_predict=True \
-  --predict_file=$SQUAD_DIR/dev-v2.0.json \
-  --train_batch_size=24 \
-  --learning_rate=3e-5 \
-  --num_train_epochs=2.0 \
-  --max_seq_length=384 \
-  --doc_stride=128 \
-  --output_dir=gs://some_bucket/squad_large/ \
-  --use_tpu=True \
-  --tpu_name=$TPU_NAME \
-  --version_2_with_negative=True \
-  --null_score_diff_threshold=$THRESH
-```
+
 
 ## Classification Job
 
+### cola: The Corpus of Linguistic Acceptability
 ```sh
 CUDA_VISIBLE_DEVICES=0 python run_classifier.py \
   --task_name=cola \
@@ -107,8 +135,9 @@ CUDA_VISIBLE_DEVICES=0 python run_classifier.py \
 - [WikiExtractor][https://github.com/attardi/wikiextractor]
 
 ## Reference
-- [bert paper][https://arxiv.org/abs/1810.04805]
-- [korquad v1][https://korquad.github.io/category/1.0_KOR.html]
+- [Bert paper][https://arxiv.org/abs/1810.04805]
+- [KorQuAD v1][https://korquad.github.io/category/1.0_KOR.html]
+- [KorQuAD submition tutorial][https://worksheets.codalab.org/worksheets/0xf9b9efaff9c641a7a48290fe4c94d593]
 
 ### Training
 - [Bert 를 카톡 데이터를 통해서 학습시켜보자.][https://blog.pingpong.us/dialog-bert-pretrain/]
